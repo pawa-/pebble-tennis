@@ -9,7 +9,7 @@ static SimpleMenuItem main_menu_item_options[4];
 
 static const char *final_set_options[] = { "Tie break at 6-6", "No tie break", "Championship tie break" };
 static const char *switch_options[] = { "Yes", "No" };
-static const char *switch_options_able[] = { "Enabled", "Disabled" };
+static const char *switch_options_abled[] = { "Enabled", "Disabled" };
 
 static Settings settings;
 
@@ -44,7 +44,7 @@ void cycle_tie_breaks_setting() {
 
 void cycle_no_ad_setting() {
   toggle_switch_setting(&settings.no_ad);
-  main_menu_item_options[1].subtitle = switch_options_able[settings.no_ad];
+  main_menu_item_options[1].subtitle = switch_options_abled[settings.no_ad];
   layer_mark_dirty(simple_menu_layer_get_layer(main_menu_layer));
 }
 
@@ -106,8 +106,8 @@ static void window_load(Window *window) {
   };
 
   main_menu_item_options[1] = (SimpleMenuItem) {
-      .title = "No-Ad",
-      .subtitle = switch_options_able[settings.no_ad],
+      .title = "No-Ad Scoring",
+      .subtitle = switch_options_abled[settings.no_ad],
       .callback = cycle_no_ad_setting
   };
 
