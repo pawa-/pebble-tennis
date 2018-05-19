@@ -178,12 +178,21 @@ void increment_point(State *s, Player *scorer, Player *non_scorer) {
         break;
       }
 
-      bool is_break_point_against_scorer = scorer->is_serving
-        && *non_scorer->points == FORTY
-        && *scorer->points < FORTY;
+      bool is_break_point_against_scorer = false;
 
-      bool is_break_point_against_non_scorer = non_scorer->is_serving
-        && (*scorer->points == AD || (*scorer->points == FORTY && *non_scorer->points < FORTY));
+      if (s->no_ad == ENABLED) {
+        is_break_point_against_scorer = scorer->is_serving && *non_scorer->points == FORTY;
+      } else {
+        is_break_point_against_scorer = scorer->is_serving && (*non_scorer->points == AD || (*non_scorer->points == FORTY && *scorer->points < FORTY));
+      }
+
+      bool is_break_point_against_non_scorer = false;
+
+      if (s->no_ad == ENABLED) {
+        is_break_point_against_non_scorer = non_scorer->is_serving && *scorer->points == FORTY;
+      } else {
+        is_break_point_against_non_scorer = non_scorer->is_serving && (*scorer->points == AD || (*scorer->points == FORTY && *non_scorer->points < FORTY));
+      }
 
       if (is_break_point_against_scorer) {
         // This is a break point against scorer
@@ -191,7 +200,7 @@ void increment_point(State *s, Player *scorer, Player *non_scorer) {
       }
 
       if (is_break_point_against_non_scorer) {
-        // This is a break point against scorer
+        // This is a break point against non scorer
         scorer->is_player ? s->opponent_break_points_faced++ : s->player_break_points_faced++;
       }
 
