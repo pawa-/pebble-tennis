@@ -6,6 +6,7 @@
 
 typedef enum {
   NUM_SETS,
+  NO_AD,
   TIE_BREAKS,
   FINAL_SET,
   FIRST_SERVER,

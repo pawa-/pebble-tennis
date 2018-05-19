@@ -74,6 +74,7 @@ static void window_load(Window *window) {
 
   settings = (Settings)
     { .num_sets = 3
+    , .no_ad = NO
     , .tie_breaks = YES
     , .final_set = FINAL_SET_SIX_ALL_TIE_BREAK
     , .first_server = PLAYER
