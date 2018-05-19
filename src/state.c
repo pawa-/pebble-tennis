@@ -154,7 +154,7 @@ void increment_point(State *s, Player *scorer, Player *non_scorer) {
           }
           increment_game(s, scorer, non_scorer);
         } else {
-          // No-Ad Scoring
+          // Advantage Scoring
 
           if (*non_scorer->points == AD) {
             *non_scorer->points = FORTY;
