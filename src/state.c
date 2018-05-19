@@ -149,8 +149,8 @@ void increment_point(State *s, Player *scorer, Player *non_scorer) {
       case FORTY:
         if (s->no_ad == ENABLED) {
           if (!scorer->is_serving) {
-              // Break of serve
-              scorer->is_player ? s->opponent_break_points_conceded++ : s->player_break_points_conceded++;
+            // Break of serve
+            scorer->is_player ? s->opponent_break_points_conceded++ : s->player_break_points_conceded++;
           }
           increment_game(s, scorer, non_scorer);
         } else {
