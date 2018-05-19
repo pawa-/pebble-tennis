@@ -60,6 +60,7 @@ typedef enum {
 
 typedef struct {
   int num_sets;
+  int no_ad;
   int tie_breaks;
   int final_set;
   int first_server;

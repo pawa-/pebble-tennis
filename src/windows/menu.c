@@ -25,6 +25,28 @@ const char *num_sets_to_string(int n) {
   }
 }
 
+void cycle_final_set_setting() {
+  if (settings.final_set < 2) {
+    ++settings.final_set;
+  } else {
+    settings.final_set = 0;
+  }
+  main_menu_item_options[3].subtitle = final_set_options[settings.final_set];
+  layer_mark_dirty(simple_menu_layer_get_layer(main_menu_layer));
+}
+
+void cycle_tie_breaks_setting() {
+  toggle_switch_setting(&settings.tie_breaks);
+  main_menu_item_options[2].subtitle = switch_options[settings.tie_breaks];
+  layer_mark_dirty(simple_menu_layer_get_layer(main_menu_layer));
+}
+
+void cycle_no_ad_setting() {
+  toggle_switch_setting(&settings.no_ad);
+  main_menu_item_options[1].subtitle = switch_options[settings.no_ad];
+  layer_mark_dirty(simple_menu_layer_get_layer(main_menu_layer));
+}
+
 void cycle_match_type() {
   switch (settings.num_sets) {
     case 1:
@@ -36,22 +58,6 @@ void cycle_match_type() {
       break;
   }
   main_menu_item_options[0].subtitle = num_sets_to_string(settings.num_sets);
-  layer_mark_dirty(simple_menu_layer_get_layer(main_menu_layer));
-}
-
-void cycle_final_set_setting() {
-  if (settings.final_set < 2) {
-    ++settings.final_set;
-  } else {
-    settings.final_set = 0;
-  }
-  main_menu_item_options[2].subtitle = final_set_options[settings.final_set];
-  layer_mark_dirty(simple_menu_layer_get_layer(main_menu_layer));
-}
-
-void cycle_tie_breaks_setting() {
-  toggle_switch_setting(&settings.tie_breaks);
-  main_menu_item_options[1].subtitle = switch_options[settings.tie_breaks];
   layer_mark_dirty(simple_menu_layer_get_layer(main_menu_layer));
 }
 
@@ -88,7 +94,7 @@ static void window_load(Window *window) {
   main_menu_sections[1] = (SimpleMenuSection) {
     .title = "Match Settings",
     .items = main_menu_item_options,
-    .num_items = 3
+    .num_items = 4
   };
 
   main_menu_item_options[0] = (SimpleMenuItem) {
@@ -98,12 +104,18 @@ static void window_load(Window *window) {
   };
 
   main_menu_item_options[1] = (SimpleMenuItem) {
+      .title = "No-Ad",
+      .subtitle = switch_options[settings.no_ad],
+      .callback = cycle_no_ad_setting
+  };
+
+  main_menu_item_options[2] = (SimpleMenuItem) {
     .title = "Tie Breaks",
     .subtitle = switch_options[settings.tie_breaks],
     .callback = cycle_tie_breaks_setting
   };
 
-  main_menu_item_options[2] = (SimpleMenuItem) {
+  main_menu_item_options[3] = (SimpleMenuItem) {
     .title = "Final Set",
     .subtitle = final_set_options[settings.final_set],
     .callback = cycle_final_set_setting
