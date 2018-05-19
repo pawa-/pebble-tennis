@@ -14,15 +14,17 @@ const char *byte_to_binary(int x) {
 }
 
 void load_settings(Settings *settings) {
-  if (persist_exists(NUM_SETS)) settings->num_sets = persist_read_int(NUM_SETS);
+  if (persist_exists(NUM_GAMES)) settings->num_games = persist_read_int(NUM_GAMES);
   if (persist_exists(NO_AD)) settings->no_ad = persist_read_int(NO_AD);
+  if (persist_exists(NUM_SETS)) settings->num_sets = persist_read_int(NUM_SETS);
   if (persist_exists(TIE_BREAKS)) settings->tie_breaks = persist_read_int(TIE_BREAKS);
   if (persist_exists(FINAL_SET)) settings->final_set = persist_read_int(FINAL_SET);
 }
 
 void save_settings(Settings *settings) {
-  persist_write_int(NUM_SETS, settings->num_sets);
+  persist_write_int(NUM_GAMES, settings->num_games);
   persist_write_int(NO_AD, settings->no_ad);
+  persist_write_int(NUM_SETS, settings->num_sets);
   persist_write_int(TIE_BREAKS, settings->tie_breaks);
   persist_write_int(FINAL_SET, settings->final_set);
 }
