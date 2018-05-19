@@ -26,6 +26,7 @@ State state_new(Settings *settings) {
     , .is_final_set = settings->num_sets == 1
 
     , .num_sets = settings->num_sets
+    , .no_ad = settings->no_ad
     , .tie_breaks = settings->tie_breaks
     , .final_set = settings->final_set
     , .server = settings->first_server
@@ -144,20 +145,28 @@ void increment_point(State *s, Player *scorer, Player *non_scorer) {
     switch (*scorer->points) {
       case LOVE: *scorer->points = FIFTEEN; break;
       case FIFTEEN: *scorer->points = THIRTY; break;
-      case THIRTY:
-        *scorer->points = FORTY;
-        break;
+      case THIRTY: *scorer->points = FORTY; break;
       case FORTY:
-        if (*non_scorer->points == AD) {
-          *non_scorer->points = FORTY;
-        } else if (*non_scorer->points == FORTY) {
-          *scorer->points = AD;
-        } else {
+        if (s->no_ad == ENABLED) {
           if (!scorer->is_serving) {
             // Break of serve
             scorer->is_player ? s->opponent_break_points_conceded++ : s->player_break_points_conceded++;
           }
           increment_game(s, scorer, non_scorer);
+        } else {
+          // Advantage Scoring
+
+          if (*non_scorer->points == AD) {
+            *non_scorer->points = FORTY;
+          } else if (*non_scorer->points == FORTY) {
+            *scorer->points = AD;
+          } else {
+            if (!scorer->is_serving) {
+              // Break of serve
+              scorer->is_player ? s->opponent_break_points_conceded++ : s->player_break_points_conceded++;
+            }
+            increment_game(s, scorer, non_scorer);
+          }
         }
         break;
       case AD:
@@ -167,15 +176,23 @@ void increment_point(State *s, Player *scorer, Player *non_scorer) {
         }
         increment_game(s, scorer, non_scorer);
         break;
-
       }
 
-      bool is_break_point_against_scorer = scorer->is_serving
-        && *non_scorer->points == FORTY
-        && *scorer->points < FORTY;
+      bool is_break_point_against_scorer = false;
 
-      bool is_break_point_against_non_scorer = non_scorer->is_serving
-        && (*scorer->points == AD || (*scorer->points == FORTY && *non_scorer->points < FORTY));
+      if (s->no_ad == ENABLED) {
+        is_break_point_against_scorer = scorer->is_serving && *non_scorer->points == FORTY;
+      } else {
+        is_break_point_against_scorer = scorer->is_serving && (*non_scorer->points == AD || (*non_scorer->points == FORTY && *scorer->points < FORTY));
+      }
+
+      bool is_break_point_against_non_scorer = false;
+
+      if (s->no_ad == ENABLED) {
+        is_break_point_against_non_scorer = non_scorer->is_serving && *scorer->points == FORTY;
+      } else {
+        is_break_point_against_non_scorer = non_scorer->is_serving && (*scorer->points == AD || (*scorer->points == FORTY && *non_scorer->points < FORTY));
+      }
 
       if (is_break_point_against_scorer) {
         // This is a break point against scorer
@@ -183,7 +200,7 @@ void increment_point(State *s, Player *scorer, Player *non_scorer) {
       }
 
       if (is_break_point_against_non_scorer) {
-        // This is a break point against scorer
+        // This is a break point against non scorer
         scorer->is_player ? s->opponent_break_points_faced++ : s->player_break_points_faced++;
       }
 
@@ -281,6 +298,7 @@ void debug_state(State *s) {
 
 
   APP_LOG(APP_LOG_LEVEL_INFO, "%d set match", s->num_sets);
+  APP_LOG(APP_LOG_LEVEL_INFO, "No-Ad Scoring: %d", s->no_ad);
 
   APP_LOG(APP_LOG_LEVEL_INFO, "%s-%s, GAMES: %d-%d, SETS: %d-%d"
     , player_points, opponent_points
