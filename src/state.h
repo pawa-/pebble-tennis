@@ -28,6 +28,7 @@ typedef struct {
 
   // Settings
   int num_sets;
+  int no_ad;
   int tie_breaks;
   int final_set;
   int server;
@@ -74,7 +75,7 @@ typedef enum {
 typedef enum {
     ENABLED=0,
     DISABLED=1
-} SWITCH_SETTING_ABLE;
+} SWITCH_SETTING_ABLED;
 
 
 typedef enum {
