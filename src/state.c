@@ -224,15 +224,15 @@ void increment_game(State *s, Player *scorer, Player *non_scorer) {
 
   // If tie breaks are switched on, or this is the final set and a
   // tie break is required enter a tie break at 6 all.
-  if (s->tie_breaks == YES || (s->is_final_set && s->final_set == FINAL_SET_SIX_ALL_TIE_BREAK)) {
+  if (s->tie_breaks == YES && (s->is_final_set && s->final_set == FINAL_SET_SIX_ALL_TIE_BREAK)) {
     if (s->is_tie_break) {
       s->is_tie_break = false;
       increment_set(s, scorer, non_scorer);
-    } else if (*scorer->games < 5) {
+    } else if (*scorer->games < s->num_games - 1) {
       *scorer->games = *scorer->games + 1;
     } else if (*scorer->games - *non_scorer->games < 1) {
       *scorer->games = *scorer->games + 1;
-      if (*scorer->games == 6 && *non_scorer->games == 6) {
+      if (*scorer->games == s->num_games && *non_scorer->games == s->num_games) {
         s->is_tie_break = true;
       }
     } else {
