@@ -14,9 +14,19 @@ static void render(Layer *layer, GContext *ctx) {
   GRect text_box = { .origin = { .x = 10, .y = 10 }, .size = { .h = 34, .w = (bounds.size.w - 30) / 2 } };
   graphics_fill_rect(ctx, text_box, 5, GCornerNone);
 
+  char* match_result;
+
+  if (state->player_sets > state->opponent_sets) {
+    match_result = "WIN";
+  } else if (state->player_sets < state->opponent_sets) {
+    match_result = "LOSE";
+  } else {
+    match_result = "TIE";
+  }
+
   graphics_draw_text(
       ctx
-    , state->player_sets > state->opponent_sets ? "WIN" : "LOSE"
+    , match_result
     , fonts_get_system_font(FONT_KEY_GOTHIC_24)
     , text_box
     , GTextOverflowModeTrailingEllipsis

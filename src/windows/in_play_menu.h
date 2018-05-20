@@ -3,6 +3,7 @@
 
 #include <pebble.h>
 #include "menu.h"
+#include "match.h"
 #include "../state.h"
 #include "../persistence.h"
 

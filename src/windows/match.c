@@ -62,7 +62,7 @@ static void render(State *state) {
   state_destroy(state);
 }
 
-static void show_summary() {
+void show_summary() {
   window_stack_pop_all(true);
   State state = compute_state(serial, &settings);
   summary_window_push(state);
