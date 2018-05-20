@@ -5,8 +5,9 @@
 #include "state.h"
 
 typedef enum {
-  NUM_SETS,
+  NUM_GAMES,
   NO_AD,
+  NUM_SETS,
   TIE_BREAKS,
   FINAL_SET,
   FIRST_SERVER,

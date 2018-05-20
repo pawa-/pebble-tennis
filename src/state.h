@@ -27,8 +27,9 @@ typedef struct {
   bool is_final_set;
 
   // Settings
-  int num_sets;
+  int num_games;
   int no_ad;
+  int num_sets;
   int tie_breaks;
   int final_set;
   int server;
@@ -60,8 +61,9 @@ typedef enum {
 } SERVER;
 
 typedef struct {
-  int num_sets;
+  int num_games;
   int no_ad;
+  int num_sets;
   int tie_breaks;
   int final_set;
   int first_server;

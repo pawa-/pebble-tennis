@@ -25,8 +25,9 @@ State state_new(Settings *settings) {
     , .is_complete = false
     , .is_final_set = settings->num_sets == 1
 
-    , .num_sets = settings->num_sets
+    , .num_games = settings->num_games
     , .no_ad = settings->no_ad
+    , .num_sets = settings->num_sets
     , .tie_breaks = settings->tie_breaks
     , .final_set = settings->final_set
     , .server = settings->first_server
@@ -227,11 +228,11 @@ void increment_game(State *s, Player *scorer, Player *non_scorer) {
     if (s->is_tie_break) {
       s->is_tie_break = false;
       increment_set(s, scorer, non_scorer);
-    } else if (*scorer->games < 5) {
+    } else if (*scorer->games < s->num_games - 1) {
       *scorer->games = *scorer->games + 1;
     } else if (*scorer->games - *non_scorer->games < 1) {
       *scorer->games = *scorer->games + 1;
-      if (*scorer->games == 6 && *non_scorer->games == 6) {
+      if (*scorer->games == s->num_games && *non_scorer->games == s->num_games) {
         s->is_tie_break = true;
       }
     } else {
@@ -240,8 +241,8 @@ void increment_game(State *s, Player *scorer, Player *non_scorer) {
     return;
   }
 
-  // Long set mode, keep going 'til 6 or 2 clear games
-  if (*scorer->games < 5) {
+  // Long set mode, keep going 'til num_games or 2 clear games
+  if (*scorer->games < s->num_games - 1) {
     *scorer->games = *scorer->games + 1;
   } else if (*scorer->games - *non_scorer->games < 1) {
     *scorer->games = *scorer->games + 1;
@@ -297,8 +298,9 @@ void debug_state(State *s) {
   }
 
 
-  APP_LOG(APP_LOG_LEVEL_INFO, "%d set match", s->num_sets);
+  APP_LOG(APP_LOG_LEVEL_INFO, "%d games", s->num_games);
   APP_LOG(APP_LOG_LEVEL_INFO, "No-Ad Scoring: %d", s->no_ad);
+  APP_LOG(APP_LOG_LEVEL_INFO, "%d set match", s->num_sets);
 
   APP_LOG(APP_LOG_LEVEL_INFO, "%s-%s, GAMES: %d-%d, SETS: %d-%d"
     , player_points, opponent_points

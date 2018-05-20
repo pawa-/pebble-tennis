@@ -5,7 +5,7 @@ static Window *s_main_window;
 static SimpleMenuLayer *main_menu_layer;
 static SimpleMenuSection main_menu_sections[2];
 static SimpleMenuItem main_menu_items[1];
-static SimpleMenuItem main_menu_item_options[4];
+static SimpleMenuItem main_menu_item_options[5];
 
 static const char *final_set_options[] = { "Tie break at 6-6", "No tie break", "Championship tie break" };
 static const char *switch_options[] = { "Yes", "No" };
@@ -15,6 +15,16 @@ static Settings settings;
 
 void toggle_switch_setting(int *setting) {
   *setting ^= 1;
+}
+
+const char *num_games_to_string(int n) {
+  switch (n) {
+    case 2: return "2";
+    case 4: return "4";
+    case 6: return "6";
+    case 8: return "8";
+    default: return "?";
+  }
 }
 
 const char *num_sets_to_string(int n) {
@@ -32,13 +42,27 @@ void cycle_final_set_setting() {
   } else {
     settings.final_set = 0;
   }
-  main_menu_item_options[3].subtitle = final_set_options[settings.final_set];
+  main_menu_item_options[4].subtitle = final_set_options[settings.final_set];
   layer_mark_dirty(simple_menu_layer_get_layer(main_menu_layer));
 }
 
 void cycle_tie_breaks_setting() {
   toggle_switch_setting(&settings.tie_breaks);
-  main_menu_item_options[2].subtitle = switch_options[settings.tie_breaks];
+  main_menu_item_options[3].subtitle = switch_options[settings.tie_breaks];
+  layer_mark_dirty(simple_menu_layer_get_layer(main_menu_layer));
+}
+
+void cycle_match_type() {
+  switch (settings.num_sets) {
+    case 1:
+    case 3:
+      settings.num_sets += 2;
+      break;
+    default:
+      settings.num_sets = 1;
+      break;
+  }
+  main_menu_item_options[2].subtitle = num_sets_to_string(settings.num_sets);
   layer_mark_dirty(simple_menu_layer_get_layer(main_menu_layer));
 }
 
@@ -48,17 +72,18 @@ void cycle_no_ad_setting() {
   layer_mark_dirty(simple_menu_layer_get_layer(main_menu_layer));
 }
 
-void cycle_match_type() {
-  switch (settings.num_sets) {
-    case 1:
-    case 3:
-      settings.num_sets = settings.num_sets + 2;
+void cycle_game_type() {
+  switch (settings.num_games) {
+    case 2:
+    case 4:
+    case 6:
+      settings.num_games += 2;
       break;
     default:
-      settings.num_sets = 1;
+      settings.num_games = 2;
       break;
   }
-  main_menu_item_options[0].subtitle = num_sets_to_string(settings.num_sets);
+  main_menu_item_options[0].subtitle = num_games_to_string(settings.num_games);
   layer_mark_dirty(simple_menu_layer_get_layer(main_menu_layer));
 }
 
@@ -74,8 +99,9 @@ static void window_load(Window *window) {
   GRect bounds = layer_get_bounds(window_layer);
 
   settings = (Settings)
-    { .num_sets = 3
+    { .num_games = 6
     , .no_ad = DISABLED
+    , .num_sets = 3
     , .tie_breaks = YES
     , .final_set = FINAL_SET_SIX_ALL_TIE_BREAK
     , .first_server = PLAYER
@@ -96,28 +122,34 @@ static void window_load(Window *window) {
   main_menu_sections[1] = (SimpleMenuSection) {
     .title = "Match Settings",
     .items = main_menu_item_options,
-    .num_items = 4
+    .num_items = 5
   };
 
   main_menu_item_options[0] = (SimpleMenuItem) {
+    .title = "Games",
+    .subtitle = num_games_to_string(settings.num_games),
+    .callback = cycle_game_type
+  };
+
+  main_menu_item_options[1] = (SimpleMenuItem) {
+    .title = "No-Ad Scoring",
+    .subtitle = switch_options_abled[settings.no_ad],
+    .callback = cycle_no_ad_setting
+  };
+
+  main_menu_item_options[2] = (SimpleMenuItem) {
     .title = "Sets",
     .subtitle = num_sets_to_string(settings.num_sets),
     .callback = cycle_match_type
   };
 
-  main_menu_item_options[1] = (SimpleMenuItem) {
-      .title = "No-Ad Scoring",
-      .subtitle = switch_options_abled[settings.no_ad],
-      .callback = cycle_no_ad_setting
-  };
-
-  main_menu_item_options[2] = (SimpleMenuItem) {
+  main_menu_item_options[3] = (SimpleMenuItem) {
     .title = "Tie Breaks",
     .subtitle = switch_options[settings.tie_breaks],
     .callback = cycle_tie_breaks_setting
   };
 
-  main_menu_item_options[3] = (SimpleMenuItem) {
+  main_menu_item_options[4] = (SimpleMenuItem) {
     .title = "Final Set",
     .subtitle = final_set_options[settings.final_set],
     .callback = cycle_final_set_setting
