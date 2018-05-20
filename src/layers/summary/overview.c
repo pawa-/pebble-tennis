@@ -21,8 +21,6 @@ static void render(Layer *layer, GContext *ctx) {
     } else if (state->player_games < state->opponent_games) {
       state->opponent_sets++;
     }
-
-    state->is_complete = true;
   }
 
   GRect bounds = layer_get_frame(layer);
