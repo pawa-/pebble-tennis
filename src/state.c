@@ -233,7 +233,9 @@ void increment_game(State *s, Player *scorer, Player *non_scorer) {
     } else if (*scorer->games - *non_scorer->games < 1) {
       *scorer->games = *scorer->games + 1;
       if (*scorer->games == s->num_games && *non_scorer->games == s->num_games) {
-        s->is_tie_break = true;
+        if (!(s->is_final_set && s->final_set == FINAL_SET_NO_TIE_BREAK)) {
+          s->is_tie_break = true;
+        }
       }
     } else {
       increment_set(s, scorer, non_scorer);
