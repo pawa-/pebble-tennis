@@ -16,6 +16,10 @@ static void discard() {
   menu_window_push();
 }
 
+static void finish() {
+  show_summary();
+}
+
 // static void save() {
 //   save_match(serial);
 //   window_stack_pop_all(true);
@@ -43,7 +47,7 @@ static void window_load(Window *window) {
 
   in_play_menu_items[1] = (SimpleMenuItem) {
     .title = "Finish match",
-    .callback = show_summary
+    .callback = finish,
   };
 
   in_play_menu_items[2] = (SimpleMenuItem) {

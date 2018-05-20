@@ -5,6 +5,26 @@ static void render(Layer *layer, GContext *ctx) {
   OverviewData *data = (OverviewData *) layer_get_data(layer);
   State *state = data->state;
 
+  int num_sets = state->player_sets + state->opponent_sets;
+
+  // ユーザーが Finish match を選んだ場合はまだ complete でない
+  if (!state->is_complete) {
+    num_sets++;
+
+    int current_set = state->player_sets + state->opponent_sets;
+
+    state->completed_sets[current_set][0] = state->player_games;
+    state->completed_sets[current_set][1] = state->opponent_games;
+
+    if (state->player_games > state->opponent_games) {
+      state->player_sets++;
+    } else if (state->player_games < state->opponent_games) {
+      state->opponent_sets++;
+    }
+
+    state->is_complete = true;
+  }
+
   GRect bounds = layer_get_frame(layer);
 
   graphics_context_set_text_color(ctx, GColorWhite);
@@ -52,7 +72,6 @@ static void render(Layer *layer, GContext *ctx) {
     , NULL);
 
   int width = bounds.size.w - 30;
-  int num_sets = state->player_sets + state->opponent_sets;
   int cell_size = (width / 5);
   int line_width = cell_size * num_sets;
 
