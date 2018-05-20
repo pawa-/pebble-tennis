@@ -7,7 +7,7 @@ static SimpleMenuSection main_menu_sections[2];
 static SimpleMenuItem main_menu_items[1];
 static SimpleMenuItem main_menu_item_options[5];
 
-static const char *final_set_options[] = { "Tie break at 6-6", "No tie break", "Championship tie break" };
+static const char *final_set_options[] = { "Standard tie break", "No tie break", "Championship tie break" };
 static const char *switch_options[] = { "Yes", "No" };
 static const char *switch_options_abled[] = { "Enabled", "Disabled" };
 
@@ -103,7 +103,7 @@ static void window_load(Window *window) {
     , .no_ad = DISABLED
     , .num_sets = 3
     , .tie_breaks = YES
-    , .final_set = FINAL_SET_SIX_ALL_TIE_BREAK
+    , .final_set = FINAL_SET_STANDARD_TIE_BREAK
     , .first_server = PLAYER
     };
 

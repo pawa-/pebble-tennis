@@ -18,7 +18,7 @@ void deinit(void) {
 //   Settings settings = (Settings)
 //     { .num_sets = 3
 //     , .tie_breaks = YES
-//     , .final_set = FINAL_SET_SIX_ALL_TIE_BREAK
+//     , .final_set = FINAL_SET_STANDARD_TIE_BREAK
 //     , .first_server = PLAYER
 //   };
 //   list_t *serial = list_new();
