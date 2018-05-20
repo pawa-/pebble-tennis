@@ -16,6 +16,10 @@ static void discard() {
   menu_window_push();
 }
 
+static void finish() {
+  show_summary();
+}
+
 // static void save() {
 //   save_match(serial);
 //   window_stack_pop_all(true);
@@ -27,7 +31,7 @@ static void window_load(Window *window) {
   GRect bounds = layer_get_bounds(window_layer);
 
   in_play_menu_sections[0] = (SimpleMenuSection) {
-    .num_items = 2,
+    .num_items = 3,
     .items = in_play_menu_items
   };
 
@@ -42,6 +46,11 @@ static void window_load(Window *window) {
   };
 
   in_play_menu_items[1] = (SimpleMenuItem) {
+    .title = "Finish match",
+    .callback = finish,
+  };
+
+  in_play_menu_items[2] = (SimpleMenuItem) {
     .title = "Discard match",
     .callback = discard
   };

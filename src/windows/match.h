@@ -10,5 +10,6 @@
 
 void match_window_push(Settings *settings, list_t *serial);
 void draw_server_marker();
+void show_summary();
 
 #endif
