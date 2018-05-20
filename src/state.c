@@ -43,6 +43,9 @@ State state_new(Settings *settings) {
     , .opponent_break_points_conceded = 0
     , .completed_sets = completed_sets
 
+    // ユーザーが途中で Finish match を選ぶ場合にタイセットがあり得る
+    , .tie_sets = 0
+
     };
 
 }

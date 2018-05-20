@@ -5,7 +5,7 @@ static void render(Layer *layer, GContext *ctx) {
   OverviewData *data = (OverviewData *) layer_get_data(layer);
   State *state = data->state;
 
-  int num_sets = state->player_sets + state->opponent_sets;
+  int num_sets = state->player_sets + state->opponent_sets + state->tie_sets;
 
   // ユーザーが Finish match を選んだ場合はまだ complete でない
   if (!state->is_complete) {
@@ -20,7 +20,11 @@ static void render(Layer *layer, GContext *ctx) {
       state->player_sets++;
     } else if (state->player_games < state->opponent_games) {
       state->opponent_sets++;
+    } else {
+      state->tie_sets++;
     }
+
+    state->is_complete = true;
   }
 
   GRect bounds = layer_get_frame(layer);

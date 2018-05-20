@@ -45,6 +45,9 @@ typedef struct {
   int opponent_break_points_conceded;
   int **completed_sets;
 
+  // ユーザーが途中で Finish match を選ぶ場合にタイセットがあり得る
+  int tie_sets;
+
 } State;
 
 typedef struct {
