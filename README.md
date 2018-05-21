@@ -1,8 +1,6 @@
-# Pebble Tennis
+# Tennis+
 
 ![Header image](https://raw.githubusercontent.com/bengourley/pebble-tennis/master/graphics/header-image.png)
-
-[![Available on the Pebble store](http://pblweb.com/badge/572a8209381261f35e00000a/orange/small)](https://apps.getpebble.com/en_US/application/572a8209381261f35e00000a)
 
 Built by a tennis player for tennis players. Keep track of the score in your tennis matches with simple controls and a clean, uncluttered interface.
 
@@ -10,8 +8,7 @@ Match formats are easily configured inside the app and it defaults to the settin
 
 ## Screenshots
 
-![Match screenshot](https://raw.githubusercontent.com/bengourley/pebble-tennis/master/graphics/screenshot-match.png) ![Menu screenhot](https://raw.githubusercontent.com/bengourley/pebble-tennis/master/graphics/screenshot-menu.png) ![Summary/overview screenshot](https://raw.githubusercontent.com/bengourley/pebble-tennis/master/graphics/screenshot-summary.png) ![Summary/points screenshot](https://raw.githubusercontent.com/bengourley/pebble-tennis/master/graphics/screenshot-points.png)
-
+![Match screenshot](https://raw.githubusercontent.com/pawa-/pebble-tennis-plus/master/graphics/screenshot-match.png) ![Menu screenhot](https://raw.githubusercontent.com/pawa-/pebble-tennis-plus/master/graphics/screenshot-menu.png) ![Summary/overview screenshot](https://raw.githubusercontent.com/pawa-/pebble-tennis-plus/master/graphics/screenshot-summary.png) ![Summary/points screenshot](https://raw.githubusercontent.com/pawa-/pebble-tennis-plus/master/graphics/screenshot-points.png)
 
 ## Instructions
 
@@ -28,12 +25,6 @@ Match formats are easily configured inside the app and it defaults to the settin
 - Many match formats supported
 - Infinite undo
 - Post-match stats
-
-## Roadmap
-
-- Ability to save/resume match state with persistent storage
-- Ability to view stats for previously completed matches
-- Support any missing match formats
 
 ## License
 
