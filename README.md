@@ -32,6 +32,8 @@ Match formats are easily configured inside the app and it defaults to the settin
 - Number of games configurable (2, 4, 6 and 8)
 - Track of the score can be finished anytime
 
+![Menu screenshot](https://raw.githubusercontent.com/pawa-/pebble-tennis-plus/master/graphics/screenshot-menu-plus.png) ![Match menu screenhot](https://raw.githubusercontent.com/pawa-/pebble-tennis-plus/master/graphics/screenshot-match-menu-plus.png)
+
 ## License
 
 Copyright (c) 2016, Ben Gourley
