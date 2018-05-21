@@ -26,6 +26,12 @@ Match formats are easily configured inside the app and it defaults to the settin
 - Infinite undo
 - Post-match stats
 
+## Plus
+
+- No-Ad scoring supported
+- Number of games configurable (2, 4, 6 and 8)
+- Track of the score can be finished anytime
+
 ## License
 
 Copyright (c) 2016, Ben Gourley
